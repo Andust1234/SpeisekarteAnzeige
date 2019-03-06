@@ -1,21 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using UnityEngine;
 using UnityEditor;
 using System;
+using System.IO;
 
 public class Connect : MonoBehaviour
 {
-    public TextAsset MySQLConfig;
-    public string host, database, user, password;
+    private string host, database, user, password;
 
     private MySqlConnection conn;
 
-    private void Awake()
+    public Connect()
     {
-        Debug.Log(AssetDatabase.FindAssets("name: MySQL_Config").Length);//Will nicht recht.
-        string[] lines = MySQLConfig.text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        ReadMySQLConfig();
+    }
+
+    private void ReadMySQLConfig()
+    {
+        string[] lines = File.ReadAllText("Assets/Config/MySQL_Config.txt").Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
         host = lines[0];
         database = lines[1];
@@ -36,12 +38,22 @@ public class Connect : MonoBehaviour
                 conn = new MySqlConnection(connString);
                 conn.Open();
 
-                Debug.Log("Connected.");
+                //Debug.Log("Connected.");
             }
             catch (MySqlException ex)
             {
                 Debug.Log("MySQL Error: " + ex.ToString());
             }
         }
+    }
+
+    public MySqlConnection GetConnection()
+    {
+        return conn;
+    }
+
+    public void CloseConnection()
+    {
+        conn.Close();
     }
 }
