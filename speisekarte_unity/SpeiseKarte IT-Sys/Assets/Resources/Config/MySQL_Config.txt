@@ -1,3 +1,0 @@
-localhost
-it_sys_speisekarte
-root

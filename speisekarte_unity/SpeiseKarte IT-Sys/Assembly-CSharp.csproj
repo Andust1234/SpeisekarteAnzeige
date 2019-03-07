@@ -61,22 +61,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\InsertBild.cs" />
-    <Compile Include="Assets\Scripts\ButtonControl.cs" />
     <Compile Include="Assets\Scripts\Connect.cs" />
     <Compile Include="Assets\Scripts\DontDestroyOnLoad.cs" />
     <Compile Include="Assets\Scripts\Insert.cs" />
-    <Compile Include="Assets\Scripts\MySQLController.cs" />
+    <Compile Include="Assets\Scripts\InsertBild.cs" />
+    <Compile Include="Assets\Scripts\MySQLConfig.cs" />
     <Compile Include="Assets\Scripts\Read.cs" />
     <Compile Include="Assets\Scripts\ReadBild.cs" />
-    <Compile Include="Assets\Scripts\Test.cs" />
-    <Compile Include="Assets\Scripts\TextControl.cs" />
     <Compile Include="Assets\TestInsert.cs" />
     <Compile Include="Assets\TestInsertBild.cs" />
     <Compile Include="Assets\TestRead.cs" />
     <Compile Include="Assets\TestReadBild.cs" />
-    <Compile Include="Assets\testreadtxt.cs" />
-    <None Include="Assets\Resources\Config\MySQL_Config.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/timom/Git/speisekarte_unity/SpeiseKarte IT-Sys/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>

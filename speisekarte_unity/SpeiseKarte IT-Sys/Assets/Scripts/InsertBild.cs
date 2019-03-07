@@ -17,6 +17,7 @@ public class InsertBild : MonoBehaviour
 
         connect = this.gameObject.AddComponent<Connect>();
         conn = connect.GetConnection();
+        conn.Open();
 
         data = File.ReadAllBytes(AssetDatabase.GetAssetPath(img));
 
@@ -29,7 +30,6 @@ public class InsertBild : MonoBehaviour
         cmd.Parameters["@img"].Value = data;
         cmd.ExecuteNonQuery();
 
-        connect.CloseConnection();
-        
+        conn.Close();        
     }
 }

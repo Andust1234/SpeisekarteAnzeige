@@ -14,11 +14,14 @@ public class ReadBild : MonoBehaviour
     {
         connect = this.gameObject.AddComponent<Connect>();
         conn = connect.GetConnection();
+        conn.Open();
 
         MySqlCommand cmd = conn.CreateCommand();
         cmd.CommandText = sqlText;
 
         byte[] data = (byte[])cmd.ExecuteScalar();
+
+        conn.Close();
 
         Texture2D tex = new Texture2D(2, 2);
 

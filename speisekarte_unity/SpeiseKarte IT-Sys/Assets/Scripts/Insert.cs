@@ -12,6 +12,7 @@ public class Insert : MonoBehaviour
     {
         connect = this.gameObject.AddComponent<Connect>();
         conn = connect.GetConnection();
+        conn.Open();
 
         if (conn != null)
         {
@@ -34,6 +35,6 @@ public class Insert : MonoBehaviour
             Debug.Log("Keine Connection!");
         }
 
-        connect.CloseConnection();
+        conn.Close();
     }
 }
