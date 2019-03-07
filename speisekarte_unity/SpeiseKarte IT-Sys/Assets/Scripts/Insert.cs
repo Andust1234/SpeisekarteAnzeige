@@ -13,12 +13,10 @@ public class Insert : MonoBehaviour
         connect = this.gameObject.AddComponent<Connect>();
         conn = connect.GetConnection();
 
-        string cmdText = sqlText;
-
         if (conn != null)
         {
             MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = cmdText;
+            cmd.CommandText = sqlText;
 
             try
             {

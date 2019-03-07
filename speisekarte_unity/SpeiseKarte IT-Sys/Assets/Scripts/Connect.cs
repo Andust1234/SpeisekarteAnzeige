@@ -17,7 +17,7 @@ public class Connect : MonoBehaviour
 
     private void ReadMySQLConfig()
     {
-        string[] lines = File.ReadAllText("Assets/Config/MySQL_Config.txt").Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        string[] lines = File.ReadAllText("Assets/Resources/Config/MySQL_Config.txt").Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
         host = lines[0];
         database = lines[1];
