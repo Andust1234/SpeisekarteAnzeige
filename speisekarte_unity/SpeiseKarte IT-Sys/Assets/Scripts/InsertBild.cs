@@ -19,7 +19,7 @@ public class InsertBild : MonoBehaviour
         conn = connect.GetConnection();
         conn.Open();
 
-        data = File.ReadAllBytes(AssetDatabase.GetAssetPath(img));
+        data = File.ReadAllBytes(AssetDatabase.GetAssetPath(img));//Muss der Path zum Bild rein weil AssetDatabase nur im Editor funtioniert
 
         MySqlCommand cmd = conn.CreateCommand();
 
