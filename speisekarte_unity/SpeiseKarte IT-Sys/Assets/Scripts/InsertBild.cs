@@ -11,23 +11,32 @@ public class InsertBild : MonoBehaviour
     private Connect connect;
     private MySqlConnection conn;
 
-    public void InsertBildInDatenbank(string sqlText, Texture2D img)
+    public void InsertBildInDatenbank(string sqlText, byte[] imgData)
     {
-        byte[] data = null;
+        if (GetComponent<Connect>() == null)
+        {
+            connect = this.gameObject.AddComponent<Connect>();
+        }
+        else
+        {
+            connect = this.gameObject.GetComponent<Connect>();
+        }
 
-        connect = this.gameObject.AddComponent<Connect>();
         conn = connect.GetConnection();
         conn.Open();
-
-        data = File.ReadAllBytes(AssetDatabase.GetAssetPath(img));//Muss der Path zum Bild rein weil AssetDatabase nur im Editor funtioniert
 
         MySqlCommand cmd = conn.CreateCommand();
 
         cmd.CommandText = sqlText;
-        cmd.Prepare();
+        //cmd.Prepare();
 
-        cmd.Parameters.Add("@img", MySqlDbType.Binary, data.Length);
-        cmd.Parameters["@img"].Value = data;
+        //cmd.Parameters.Add("@img", MySqlDbType.Binary, imgData.Length);
+        //cmd.Parameters["@img"].Value = imgData;
+
+        MySqlParameter paramImage = new MySqlParameter("@img", MySqlDbType.Blob, imgData.Length);
+        paramImage.Value = imgData;
+        cmd.Parameters.Add(paramImage);
+
         cmd.ExecuteNonQuery();
 
         conn.Close();        

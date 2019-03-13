@@ -14,7 +14,7 @@ public class TestInsertBild : MonoBehaviour
     private void Start()
     {
         inserBild = this.gameObject.AddComponent<InsertBild>();
-        inserBild.InsertBildInDatenbank(sqlText, img);
+        //inserBild.InsertBildInDatenbank(sqlText, img);
     }
 
 }

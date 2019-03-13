@@ -7,10 +7,19 @@ public class Insert : MonoBehaviour
 {
     private Connect connect;
     private MySqlConnection conn;
+    private long lastInsertedId;
 
     public void InsertToDatabase(string sqlText)
     {
-        connect = this.gameObject.AddComponent<Connect>();
+        if(GetComponent<Connect>() == null)
+        {
+            connect = this.gameObject.AddComponent<Connect>();
+        }
+        else
+        {
+            connect = this.gameObject.GetComponent<Connect>();
+        }
+
         conn = connect.GetConnection();
         conn.Open();
 
@@ -22,6 +31,7 @@ public class Insert : MonoBehaviour
             try
             {
                 cmd.ExecuteNonQuery();
+                lastInsertedId = cmd.LastInsertedId;
             }
             catch (System.Exception ex)
             {
@@ -36,5 +46,10 @@ public class Insert : MonoBehaviour
         }
 
         conn.Close();
+    }
+
+    public long GetLastInsertedId()
+    {
+        return lastInsertedId;
     }
 }
