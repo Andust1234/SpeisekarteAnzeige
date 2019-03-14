@@ -61,14 +61,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\ButtonScript.cs" />
     <Compile Include="Assets\Scripts\Connect.cs" />
+    <Compile Include="Assets\Scripts\ControllerScript.cs" />
     <Compile Include="Assets\Scripts\CreateControll.cs" />
     <Compile Include="Assets\Scripts\DontDestroyOnLoad.cs" />
     <Compile Include="Assets\Scripts\Insert.cs" />
     <Compile Include="Assets\Scripts\InsertBild.cs" />
+    <Compile Include="Assets\Scripts\KartenControll.cs" />
     <Compile Include="Assets\Scripts\MySQLConfig.cs" />
     <Compile Include="Assets\Scripts\Read.cs" />
     <Compile Include="Assets\Scripts\ReadBild.cs" />
+    <Compile Include="Assets\Scripts\ShowSpeiseControll.cs" />
+    <Compile Include="Assets\Scripts\SpeiseControll.cs" />
     <Compile Include="Assets\TestFilePanel.cs" />
     <Compile Include="Assets\TestInsert.cs" />
     <Compile Include="Assets\TestInsertBild.cs" />
@@ -307,6 +312,12 @@
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>C:/Users/VTTI/Documents/GitHub/SpeisekarteAnzeige/speisekarte_unity/SpeiseKarte IT-Sys/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N.West">
+      <HintPath>C:/Users/VTTI/Documents/GitHub/SpeisekarteAnzeige/speisekarte_unity/SpeiseKarte IT-Sys/Assets/Plugins/I18N.West.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N">
+      <HintPath>C:/Users/VTTI/Documents/GitHub/SpeisekarteAnzeige/speisekarte_unity/SpeiseKarte IT-Sys/Assets/Plugins/I18N.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.6f1/Editor/Data/MonoBleedingEdge/lib/mono/2.0-api/mscorlib.dll</HintPath>

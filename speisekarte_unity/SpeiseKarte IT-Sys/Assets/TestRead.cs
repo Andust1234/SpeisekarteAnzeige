@@ -10,6 +10,6 @@ public class TestRead : MonoBehaviour
     private void Start()
     {
         read = this.gameObject.AddComponent<Read>();
-        read.ReadTableFromDatabase(sqlText);
+        //read.ReadTableFromDatabase(sqlText);
     }
 }
