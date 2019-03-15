@@ -15,6 +15,8 @@ public class ControllerScript : MonoBehaviour
     public GameObject buttons;
     public GameObject anzeige;
 
+    public bool adminMode;
+
     private Read read;
 
     private void Awake()
@@ -53,5 +55,15 @@ public class ControllerScript : MonoBehaviour
         karte = Instantiate(showKartePrefab, anzeige.transform);
 
         karte.GetComponent<KartenControll>().SetSpeisenTable(read.ReadSpeiseTable("SELECT speisekarte.ID, speisekarte.Titel, speisekarte.Bild, speisekarte.Preis, speisekarte.Beschreibung, speisenart.SpeisenArtName FROM speisekarte INNER JOIN speisenart ON " + id + " = speisenart.ID WHERE speisekarte.SpeisenArt_ID=" + id));
+    }
+
+    public void LoadCreatSpeise()
+    {
+        foreach (Transform child in anzeige.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        Instantiate(createSpeisePrefab, anzeige.transform);
     }
 }

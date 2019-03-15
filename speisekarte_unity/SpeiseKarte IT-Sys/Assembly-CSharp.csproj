@@ -295,6 +295,12 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.6f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="I18N">
+      <HintPath>C:/Users/VTTI/Documents/GitHub/SpeisekarteAnzeige/speisekarte_unity/SpeiseKarte IT-Sys/Assets/Plugins/I18N.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N.West">
+      <HintPath>C:/Users/VTTI/Documents/GitHub/SpeisekarteAnzeige/speisekarte_unity/SpeiseKarte IT-Sys/Assets/Plugins/I18N.West.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>C:/Users/VTTI/Documents/GitHub/SpeisekarteAnzeige/speisekarte_unity/SpeiseKarte IT-Sys/Assets/Plugins/MySql.Data.dll</HintPath>
     </Reference>
@@ -312,12 +318,6 @@
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>C:/Users/VTTI/Documents/GitHub/SpeisekarteAnzeige/speisekarte_unity/SpeiseKarte IT-Sys/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
-    </Reference>
-    <Reference Include="I18N.West">
-      <HintPath>C:/Users/VTTI/Documents/GitHub/SpeisekarteAnzeige/speisekarte_unity/SpeiseKarte IT-Sys/Assets/Plugins/I18N.West.dll</HintPath>
-    </Reference>
-    <Reference Include="I18N">
-      <HintPath>C:/Users/VTTI/Documents/GitHub/SpeisekarteAnzeige/speisekarte_unity/SpeiseKarte IT-Sys/Assets/Plugins/I18N.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.6f1/Editor/Data/MonoBleedingEdge/lib/mono/2.0-api/mscorlib.dll</HintPath>

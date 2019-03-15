@@ -33,18 +33,18 @@ public class SpeiseControll : MonoBehaviour
 
     private void VorschaubildSeitenverhältnis()
     {
-        float width = 200;
-        float height = 200;
+        float width = image.GetComponent<RectTransform>().sizeDelta.x;
+        float height = image.GetComponent<RectTransform>().sizeDelta.x;
         float einsEntspricht = 0;
 
         if (txt.width > txt.height)
         {
-            einsEntspricht = (float)200 / txt.width;
+            einsEntspricht = (float)width / txt.width;
             height = txt.height * einsEntspricht;
         }
         else if (txt.height > txt.width)
         {
-            einsEntspricht = (float)200 / txt.height;
+            einsEntspricht = (float)height / txt.height;
             width = txt.width * einsEntspricht;
         }
 
@@ -57,6 +57,7 @@ public class SpeiseControll : MonoBehaviour
 
         showSpeise = Instantiate(speiseAnzeige, this.transform.parent.transform.parent.transform);
 
-        showSpeise.GetComponent<ShowSpeiseControll>().speisenTable = speisenTable;
+        showSpeise.GetComponent<ShowSpeiseControll>().ShowSpeiseVonKarte(speisenTable);
+        showSpeise.GetComponent<ShowSpeiseControll>().schliessbar = true;
     }
 }
