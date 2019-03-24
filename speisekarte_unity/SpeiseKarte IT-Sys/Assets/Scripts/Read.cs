@@ -10,7 +10,7 @@ public class Read : MonoBehaviour
 
     public SpeisenArtTable[] ReadSpeisenArtTable(string sqlText)
     {
-        connect = this.gameObject.AddComponent<Connect>();
+        connect = this.gameObject.AddComponent<Connect>();//Nur eine connection!!!
         conn = connect.GetConnection();
         conn.Open();
 

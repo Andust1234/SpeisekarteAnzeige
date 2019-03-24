@@ -18,7 +18,7 @@ public class ShowSpeiseControll : MonoBehaviour
     private void VorschaubildSeitenverhältnis()
     {
         float width = image.GetComponent<RectTransform>().sizeDelta.x;
-        float height = image.GetComponent<RectTransform>().sizeDelta.x; ;
+        float height = image.GetComponent<RectTransform>().sizeDelta.y;
         float einsEntspricht = 0;
 
         if (txt.width > txt.height)
