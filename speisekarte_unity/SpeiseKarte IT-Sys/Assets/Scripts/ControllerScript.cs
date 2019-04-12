@@ -15,7 +15,9 @@ public class ControllerScript : MonoBehaviour
     public GameObject buttons;
     public GameObject anzeige;
 
-    public bool adminMode;
+    public GameObject creatSpeise;
+
+    private static bool adminMode = false;
 
     private Read read;
 
@@ -23,12 +25,12 @@ public class ControllerScript : MonoBehaviour
     {
         read = this.gameObject.AddComponent<Read>();
 
-        Read.SpeisenArtTable[] table = read.ReadSpeisenArtTable("SELECT * FROM speisenart");
+        SpeiseArt[] table = read.ReadSpeisenArtTable("SELECT * FROM speisenart");
 
         for (int i = 0; i < table.Length; i++)
         {
             GameObject button;
-            Read.SpeisenArtTable speisenArt = new Read.SpeisenArtTable();
+            SpeiseArt speisenArt = new SpeiseArt();
 
             button = Instantiate(buttonPrefab, buttons.transform);
             speisenArt = table[i];
@@ -43,6 +45,18 @@ public class ControllerScript : MonoBehaviour
         Instantiate(showStartPrefab, anzeige.transform);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            Debug.Log("F12 down");
+
+            ControllerScript.SetAdminMode(!ControllerScript.GetAdminMode());
+        }
+
+        creatSpeise.SetActive(adminMode);
+    }
+
     public void LoadAnzeige(int id)
     {
         foreach(Transform child in anzeige.transform)
@@ -55,6 +69,16 @@ public class ControllerScript : MonoBehaviour
         karte = Instantiate(showKartePrefab, anzeige.transform);
 
         karte.GetComponent<KartenControll>().SetSpeisenTable(read.ReadSpeiseTable("SELECT speisekarte.ID, speisekarte.Titel, speisekarte.Bild, speisekarte.Preis, speisekarte.Beschreibung, speisenart.SpeisenArtName FROM speisekarte INNER JOIN speisenart ON " + id + " = speisenart.ID WHERE speisekarte.SpeisenArt_ID=" + id));
+    }
+
+    public static void SetAdminMode(bool b)
+    {
+        adminMode = b;
+    }
+
+    public static bool GetAdminMode()
+    {
+        return adminMode;
     }
 
     public void LoadCreatSpeise()

@@ -1,18 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SpeiseControll : MonoBehaviour
 {
-    public Read.SpeisenTable speisenTable { get; set; }
+    public Speise speisenTable { get; set; }
     public GameObject speiseAnzeige;
     public GameObject image;
     public Text titel;
     public Text preis;
 
+    public GameObject editButton;
+
     private Texture2D txt;
     private Sprite sprite;
+
+    private Thread loadImageThread;
 
     private void Start()
     {
@@ -29,6 +34,16 @@ public class SpeiseControll : MonoBehaviour
         titel.text = speisenTable.Titel;
 
         preis.text = speisenTable.Preis + " €";
+    }
+
+    private void LoadImage()
+    {
+
+    }
+
+    private void Update()
+    {
+        editButton.SetActive(ControllerScript.GetAdminMode());
     }
 
     private void VorschaubildSeitenverhältnis()
@@ -55,9 +70,11 @@ public class SpeiseControll : MonoBehaviour
     {
         GameObject showSpeise;
 
-        showSpeise = Instantiate(speiseAnzeige, this.transform.parent.transform.parent.transform);
+        if(this.gameObject.transform.parent.name.Equals("Vorschau"))
+            showSpeise = Instantiate(speiseAnzeige, this.transform.parent.transform);
+        else
+            showSpeise = Instantiate(speiseAnzeige, this.transform.parent.transform.parent.transform);
 
         showSpeise.GetComponent<ShowSpeiseControll>().ShowSpeiseVonKarte(speisenTable);
-        showSpeise.GetComponent<ShowSpeiseControll>().schliessbar = true;
     }
 }

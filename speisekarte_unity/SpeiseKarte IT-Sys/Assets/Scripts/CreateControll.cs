@@ -7,10 +7,15 @@ using System.IO;
 
 public class CreateControll : MonoBehaviour
 {
-    public GameObject vorschauBild;
     public Text titel;
     public Text beschreibung;
     public Text preis;
+    public Dropdown speisenart;
+
+    public GameObject showImage;
+    public Text showTitel;
+    public Text showBeschreibung;
+    public Text showPreis;
 
     private byte[] imageData = null;
     private Texture2D txt;
@@ -37,29 +42,36 @@ public class CreateControll : MonoBehaviour
 
         sprite = Sprite.Create(txt, new Rect(0, 0, txt.width, txt.height), new Vector2(0.5f, 0.5f), 1f);
 
-        vorschauBild.GetComponent<Image>().sprite = sprite;
+        showImage.GetComponent<Image>().sprite = sprite;
 
         VorschaubildSeitenverhältnis();
     }
 
     private void VorschaubildSeitenverhältnis()
     {
-        float width = 125;
-        float height = 125;
+        float width = showImage.GetComponent<RectTransform>().sizeDelta.x;
+        float height = showImage.GetComponent<RectTransform>().sizeDelta.y;
         float einsEntspricht = 0;
 
-        if(txt.width > txt.height)
+        if (txt.width > txt.height)
         {
-            einsEntspricht = (float)125 / txt.width;
+            einsEntspricht = (float)width / txt.width;
             height = txt.height * einsEntspricht;
         }
-        else if(txt.height > txt.width)
+        else if (txt.height > txt.width)
         {
-            einsEntspricht = (float)125 / txt.height;
+            einsEntspricht = (float)height / txt.height;
             width = txt.width * einsEntspricht;
         }
 
-            vorschauBild.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+        showImage.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+    }
+
+    public void UpdateInput()
+    {
+        //showTitel.text = titel.text;
+        //showBeschreibung.text = beschreibung.text;
+        //showPreis.text = preis.text;
     }
 
     public void Save()

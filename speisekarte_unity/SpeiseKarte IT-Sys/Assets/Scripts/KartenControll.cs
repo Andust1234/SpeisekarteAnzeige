@@ -6,17 +6,21 @@ using UnityEngine.UI;
 public class KartenControll : MonoBehaviour
 {
     public GameObject speisePrefab;
+    public int platzZwischenSpeisen = 20;
 
-    private Read.SpeisenTable[] speisenTable;
-    private int breite;
-    private int höhe;
+    private Speise[] speisenTable;
+    private float breite;
+    private float höhe;
+    private int speisenNebeneinander;
+    private float speiseBreite;
+    private float speiseHöhe;
 
     private void Start()
     {
         this.gameObject.GetComponent<ScrollRect>().viewport = this.gameObject.transform.parent.GetComponent<RectTransform>();
     }
 
-    public void SetSpeisenTable(Read.SpeisenTable[] table)
+    public void SetSpeisenTable(Speise[] table)
     {
         speisenTable = table;
 
@@ -27,39 +31,38 @@ public class KartenControll : MonoBehaviour
 
     private void SetGröße()
     {
-        //if (speisenTable.Length <= 4)
-        //    breite = 20 + (270 * speisenTable.Length);
-        //else
-        //    breite = 1100;
+        speiseBreite = speisePrefab.GetComponent<RectTransform>().sizeDelta.x;
+        speiseHöhe = speisePrefab.GetComponent<RectTransform>().sizeDelta.y;
+        
+        breite = this.gameObject.GetComponent<RectTransform>().rect.width;
 
-        breite = 1100;
+        speisenNebeneinander = (int)(breite / speiseBreite);
 
-        höhe = 20 + (320 * (speisenTable.Length/4));
+        höhe = platzZwischenSpeisen + ((speiseHöhe + platzZwischenSpeisen) * (speisenTable.Length / speisenNebeneinander));
 
-        if (speisenTable.Length % 4 != 0)
-            höhe += 320;
+        if (speisenTable.Length % speisenNebeneinander != 0)
+            höhe += speiseHöhe + platzZwischenSpeisen;
+        
+        this.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0.5f, höhe);
 
-        this.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(breite, höhe);
-
-        if (höhe < Screen.height)
-            this.gameObject.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
+        //if (höhe < Screen.height)
+        //    this.gameObject.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
     }
 
     private void SetSpeisen()
     {
-        GameObject speise;
-        int x = 0;
-        int y = 0;
+        float x = 0;
+        float y = 0;
 
         for(int i = 0; i < speisenTable.Length; i++)
         {
-            speise = Instantiate(speisePrefab, this.transform);
+            GameObject speise = Instantiate(speisePrefab, this.transform) as GameObject;
 
             speise.GetComponent<SpeiseControll>().speisenTable = speisenTable[i];
 
-            x = 20 + ((i % 4) * 270);
+            x = platzZwischenSpeisen + ((i % speisenNebeneinander) * (speiseBreite + (platzZwischenSpeisen)));
 
-            y = -1 * (20 + ((i / 4) * 320));
+            y = -1 * (platzZwischenSpeisen + ((i / speisenNebeneinander) * (speiseHöhe + platzZwischenSpeisen)));
 
             speise.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, y);
         }

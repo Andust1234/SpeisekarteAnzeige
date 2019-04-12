@@ -11,7 +11,7 @@ public class InsertBild : MonoBehaviour
     private Connect connect;
     private MySqlConnection conn;
 
-    public void InsertBildInDatenbank(string sqlText, byte[] imgData)
+    private void Awake()
     {
         if (GetComponent<Connect>() == null)
         {
@@ -23,18 +23,18 @@ public class InsertBild : MonoBehaviour
         }
 
         conn = connect.GetConnection();
+    }
+
+    public void InsertBildInDatenbank(string sqlText, byte[] imageData)
+    {
         conn.Open();
 
         MySqlCommand cmd = conn.CreateCommand();
 
         cmd.CommandText = sqlText;
-        //cmd.Prepare();
 
-        //cmd.Parameters.Add("@img", MySqlDbType.Binary, imgData.Length);
-        //cmd.Parameters["@img"].Value = imgData;
-
-        MySqlParameter paramImage = new MySqlParameter("@img", MySqlDbType.Blob, imgData.Length);
-        paramImage.Value = imgData;
+        MySqlParameter paramImage = new MySqlParameter("@img", MySqlDbType.Blob, imageData.Length);
+        paramImage.Value = imageData;
         cmd.Parameters.Add(paramImage);
 
         cmd.ExecuteNonQuery();

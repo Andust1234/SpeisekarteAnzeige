@@ -8,10 +8,22 @@ public class Read : MonoBehaviour
     private Connect connect;
     private MySqlConnection conn;
 
-    public SpeisenArtTable[] ReadSpeisenArtTable(string sqlText)
+    private void Awake()
     {
-        connect = this.gameObject.AddComponent<Connect>();//Nur eine connection!!!
+        if (GetComponent<Connect>() == null)
+        {
+            connect = this.gameObject.AddComponent<Connect>();
+        }
+        else
+        {
+            connect = this.gameObject.GetComponent<Connect>();
+        }
+
         conn = connect.GetConnection();
+    }
+
+    public SpeiseArt[] ReadSpeisenArtTable(string sqlText)
+    {
         conn.Open();
 
         MySqlCommand cmd = conn.CreateCommand();
@@ -30,13 +42,13 @@ public class Read : MonoBehaviour
         cmd.CommandText = sqlText;
         reader = cmd.ExecuteReader();
 
-        SpeisenArtTable[] table = new SpeisenArtTable[k];
+        SpeiseArt[] table = new SpeiseArt[k];
 
         int i = 0;
 
         while (reader.Read())
         {
-            SpeisenArtTable speisenArtTable = new SpeisenArtTable();
+            SpeiseArt speisenArtTable = new SpeiseArt();
 
             speisenArtTable.ID = (int)reader[0];
             speisenArtTable.SpeisenArt = (string)reader[1];
@@ -52,10 +64,8 @@ public class Read : MonoBehaviour
         return table;
     }
 
-    public SpeisenTable[] ReadSpeiseTable(string sqlText)
+    public Speise[] ReadSpeiseTable(string sqlText)
     {
-        connect = this.gameObject.AddComponent<Connect>();
-        conn = connect.GetConnection();
         conn.Open();
 
         MySqlCommand cmd = conn.CreateCommand();
@@ -74,13 +84,13 @@ public class Read : MonoBehaviour
         cmd.CommandText = sqlText;
         reader = cmd.ExecuteReader();
 
-        SpeisenTable[] table = new SpeisenTable[k];
+        Speise[] table = new Speise[k];
 
         int i = 0;
 
         while (reader.Read())
         {
-            SpeisenTable speisenTable = new SpeisenTable();
+            Speise speisenTable = new Speise();
 
             speisenTable.ID = (int)reader[0];
             speisenTable.Titel = (string)reader[1];
@@ -98,21 +108,5 @@ public class Read : MonoBehaviour
         conn.Close();
 
         return table;
-    }
-
-    public class SpeisenArtTable
-    {
-        public int ID { get; set; }
-        public string SpeisenArt { get; set; }
-    }
-
-    public class SpeisenTable
-    {
-        public int ID { get; set; }
-        public string Titel { get; set; }
-        public byte[] Bild { get; set; }
-        public float Preis { get; set; }
-        public string Beschreibung { get; set; }
-        public string SpeisenArt { get; set; }
     }
 }

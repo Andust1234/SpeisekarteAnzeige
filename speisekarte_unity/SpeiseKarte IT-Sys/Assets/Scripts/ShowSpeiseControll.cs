@@ -5,13 +5,12 @@ using UnityEngine.UI;
 
 public class ShowSpeiseControll : MonoBehaviour
 {
-    public bool schliessbar = false;
     public GameObject image;
     public Text titel;
     public Text beschreibung;
     public Text preis;
 
-    private Read.SpeisenTable speisenTable;
+    private Speise speisenTable;
     private Texture2D txt;
     private Sprite sprite;
 
@@ -35,13 +34,13 @@ public class ShowSpeiseControll : MonoBehaviour
         image.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
     }
 
-    public void ShowSpeiseVonKarte(Read.SpeisenTable sT)
+    public void ShowSpeiseVonKarte(Speise sT)
     {
         speisenTable = sT;
 
         txt = new Texture2D(2, 2);
 
-        txt.LoadImage(speisenTable.Bild);
+        //txt.SetPixels(speisenTable.PixelsString);// Muss noch in color convertiert werden
 
         sprite = Sprite.Create(txt, new Rect(0, 0, txt.width, txt.height), new Vector2(0.5f, 0.5f), 1f);
 
@@ -58,7 +57,6 @@ public class ShowSpeiseControll : MonoBehaviour
 
     public void Close()
     {
-        if(schliessbar)
-            GameObject.Destroy(this.gameObject);
+        GameObject.Destroy(this.gameObject);
     }
 }
