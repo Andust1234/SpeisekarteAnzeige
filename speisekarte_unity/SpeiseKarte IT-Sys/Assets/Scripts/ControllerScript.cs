@@ -21,26 +21,11 @@ public class ControllerScript : MonoBehaviour
 
     private Read read;
 
+    private SpeiseArt[] speiseArten;
+
     private void Awake()
     {
-        read = this.gameObject.AddComponent<Read>();
-
-        SpeiseArt[] table = read.ReadSpeisenArtTable("SELECT * FROM speisenart");
-
-        for (int i = 0; i < table.Length; i++)
-        {
-            GameObject button;
-            SpeiseArt speisenArt = new SpeiseArt();
-
-            button = Instantiate(buttonPrefab, buttons.transform);
-            speisenArt = table[i];
-
-            button.transform.GetChild(0).GetComponent<Text>().text = speisenArt.SpeisenArt;
-            button.GetComponent<ButtonScript>().speisenArtID = speisenArt.ID;
-
-            RectTransform buttonRect = button.GetComponent<RectTransform>();
-            buttonRect.anchoredPosition = new Vector2(buttonRect.anchoredPosition.x, -12.5f + (-42.5f * i));
-        }
+        LoadButton();
 
         Instantiate(showStartPrefab, anzeige.transform);
     }
@@ -57,6 +42,28 @@ public class ControllerScript : MonoBehaviour
         creatSpeise.SetActive(adminMode);
     }
 
+    public void LoadButton()
+    {
+        read = this.gameObject.AddComponent<Read>();
+
+        speiseArten = read.ReadSpeisenArtTable("SELECT * FROM speisenart");
+
+        for (int i = 0; i < speiseArten.Length; i++)
+        {
+            GameObject button;
+            SpeiseArt speisenArt = new SpeiseArt();
+
+            button = Instantiate(buttonPrefab, buttons.transform);
+            speisenArt = speiseArten[i];
+
+            button.transform.GetChild(0).GetComponent<Text>().text = speisenArt.SpeisenArt;
+            button.GetComponent<ButtonScript>().speisenArtID = speisenArt.ID;
+
+            RectTransform buttonRect = button.GetComponent<RectTransform>();
+            buttonRect.anchoredPosition = new Vector2(buttonRect.anchoredPosition.x, -12.5f + (-42.5f * i));
+        }
+    }
+
     public void LoadAnzeige(int id)
     {
         foreach(Transform child in anzeige.transform)
@@ -68,7 +75,7 @@ public class ControllerScript : MonoBehaviour
 
         karte = Instantiate(showKartePrefab, anzeige.transform);
 
-        karte.GetComponent<KartenControll>().SetSpeisenTable(read.ReadSpeiseTable("SELECT speisekarte.ID, speisekarte.Titel, speisekarte.Bild, speisekarte.Preis, speisekarte.Beschreibung, speisenart.SpeisenArtName FROM speisekarte INNER JOIN speisenart ON " + id + " = speisenart.ID WHERE speisekarte.SpeisenArt_ID=" + id));
+        karte.GetComponent<KartenControll>().SetSpeisenTable(read.ReadSpeiseTable("SELECT speisekarte.ID, speisekarte.Titel, speisekarte.Bild, speisekarte.Preis, speisekarte.Beschreibung, speisenart.SpeisenArtName, speisekarte.SpeisenArt_ID FROM speisekarte INNER JOIN speisenart ON " + id + " = speisenart.ID WHERE speisekarte.SpeisenArt_ID=" + id));
     }
 
     public static void SetAdminMode(bool b)
@@ -88,6 +95,10 @@ public class ControllerScript : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        Instantiate(createSpeisePrefab, anzeige.transform);
+        GameObject createSpeise;
+
+        createSpeise =  Instantiate(createSpeisePrefab, anzeige.transform);
+
+        createSpeise.GetComponent<CreateControll>().SpeiseArten = speiseArten;
     }
 }

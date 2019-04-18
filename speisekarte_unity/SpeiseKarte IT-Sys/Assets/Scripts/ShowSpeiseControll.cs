@@ -10,7 +10,20 @@ public class ShowSpeiseControll : MonoBehaviour
     public Text beschreibung;
     public Text preis;
 
-    private Speise speisenTable;
+    private Speise speise;
+    public Speise Speise
+    {
+        get
+        {
+            return speise;
+        }
+        set
+        {
+            speise = value;
+
+            ShowSpeiseVonKarte();
+        }
+    }
     private Texture2D txt;
     private Sprite sprite;
 
@@ -34,25 +47,28 @@ public class ShowSpeiseControll : MonoBehaviour
         image.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
     }
 
-    public void ShowSpeiseVonKarte(Speise sT)
+    public void ShowSpeiseVonKarte()
     {
-        speisenTable = sT;
+        if (speise.Bild.BildRaw != null)
+        {
+            txt = new Texture2D(speise.Bild.BildWidth, speise.Bild.BildHight, TextureFormat.RGB24, false);
 
-        txt = new Texture2D(2, 2);
+            txt.LoadRawTextureData(speise.Bild.BildRaw);
 
-        //txt.SetPixels(speisenTable.PixelsString);// Muss noch in color convertiert werden
+            txt.Apply();
 
-        sprite = Sprite.Create(txt, new Rect(0, 0, txt.width, txt.height), new Vector2(0.5f, 0.5f), 1f);
+            sprite = Sprite.Create(txt, new Rect(0, 0, txt.width, txt.height), new Vector2(0.5f, 0.5f), 1f);
 
-        image.GetComponent<Image>().sprite = sprite;
+            image.GetComponent<Image>().sprite = sprite;
 
-        VorschaubildSeitenverhältnis();
+            VorschaubildSeitenverhältnis();
+        }
 
-        titel.text = speisenTable.Titel;
+        titel.text = speise.Titel;
 
-        beschreibung.text = speisenTable.Beschreibung;
+        beschreibung.text = speise.Beschreibung;
 
-        preis.text = speisenTable.Preis + " €";
+        preis.text = speise.Preis + " €";
     }
 
     public void Close()

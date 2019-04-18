@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 4108013780999868024}
   m_Layer: 5
   m_Name: ShowSpeise
-  m_TagString: Untagged
+  m_TagString: ShowSpeise
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -164,7 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95bf06d3d51e4204baeee777267c5281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  schliessbar: 1
   image: {fileID: 3395438958792774598}
   titel: {fileID: 2817180735318655468}
   beschreibung: {fileID: 3286048627000574250}
@@ -456,8 +455,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 270, y: -320}
-  m_SizeDelta: {x: 300, y: 500}
+  m_AnchoredPosition: {x: 270, y: -380}
+  m_SizeDelta: {x: 300, y: 620}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1970741858618756829
 CanvasRenderer:

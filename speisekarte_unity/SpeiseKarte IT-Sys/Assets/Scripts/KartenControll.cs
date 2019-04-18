@@ -26,7 +26,7 @@ public class KartenControll : MonoBehaviour
 
         SetGröße();
 
-        SetSpeisen();
+        StartCoroutine(SetSpeisen());
     }
 
     private void SetGröße()
@@ -49,7 +49,7 @@ public class KartenControll : MonoBehaviour
         //    this.gameObject.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
     }
 
-    private void SetSpeisen()
+    private IEnumerator SetSpeisen()
     {
         float x = 0;
         float y = 0;
@@ -58,13 +58,15 @@ public class KartenControll : MonoBehaviour
         {
             GameObject speise = Instantiate(speisePrefab, this.transform) as GameObject;
 
-            speise.GetComponent<SpeiseControll>().speisenTable = speisenTable[i];
+            speise.GetComponent<SpeiseControll>().Speise = speisenTable[i];
 
             x = platzZwischenSpeisen + ((i % speisenNebeneinander) * (speiseBreite + (platzZwischenSpeisen)));
 
             y = -1 * (platzZwischenSpeisen + ((i / speisenNebeneinander) * (speiseHöhe + platzZwischenSpeisen)));
 
             speise.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, y);
+
+            yield return null;
         }
     }
 }

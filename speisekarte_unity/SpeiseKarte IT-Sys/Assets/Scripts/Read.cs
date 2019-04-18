@@ -94,10 +94,11 @@ public class Read : MonoBehaviour
 
             speisenTable.ID = (int)reader[0];
             speisenTable.Titel = (string)reader[1];
-            speisenTable.Bild = (byte[])reader[2];
-            speisenTable.Preis = (float)reader[3];
+            //speisenTable.Bild = (byte[])reader[2];
+            speisenTable.Preis = (string)reader[3];
             speisenTable.Beschreibung = (string)reader[4];
             speisenTable.SpeisenArt = (string)reader[5];
+            speisenTable.SpeisenArt_ID = (int)reader[6];
 
             table[i] = speisenTable;
 

@@ -1,12 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SpeiseControll : MonoBehaviour
 {
-    public Speise speisenTable { get; set; }
+    private Speise speise;
+    public Speise Speise
+    {
+        set
+        {
+            speise = value;
+
+            SetupSpeise();
+            UpdateShowSpeise();
+        }
+    }
     public GameObject speiseAnzeige;
     public GameObject image;
     public Text titel;
@@ -17,28 +26,28 @@ public class SpeiseControll : MonoBehaviour
     private Texture2D txt;
     private Sprite sprite;
 
-    private Thread loadImageThread;
+    private GameObject showSpeise;
 
-    private void Start()
+    private void SetupSpeise()
     {
-        txt = new Texture2D(2, 2);
+        if(speise.Bild.BildRaw != null)
+        {
+            txt = new Texture2D(speise.Bild.BildWidth, speise.Bild.BildHight, TextureFormat.RGB24, false);
 
-        txt.LoadImage(speisenTable.Bild);
+            txt.LoadRawTextureData(speise.Bild.BildRaw);
 
-        sprite = Sprite.Create(txt, new Rect(0, 0, txt.width, txt.height), new Vector2(0.5f, 0.5f), 1f);
+            txt.Apply();
 
-        image.GetComponent<Image>().sprite = sprite;
+            sprite = Sprite.Create(txt, new Rect(0, 0, txt.width, txt.height), new Vector2(0.5f, 0.5f), 1f);
 
-        VorschaubildSeitenverhältnis();
+            image.GetComponent<Image>().sprite = sprite;
 
-        titel.text = speisenTable.Titel;
+            VorschaubildSeitenverhältnis();
+        }
 
-        preis.text = speisenTable.Preis + " €";
-    }
+        titel.text = speise.Titel;
 
-    private void LoadImage()
-    {
-
+        preis.text = speise.Preis + " €";
     }
 
     private void Update()
@@ -68,13 +77,21 @@ public class SpeiseControll : MonoBehaviour
 
     public void ShowSpeise()
     {
-        GameObject showSpeise;
-
         if(this.gameObject.transform.parent.name.Equals("Vorschau"))
             showSpeise = Instantiate(speiseAnzeige, this.transform.parent.transform);
         else
             showSpeise = Instantiate(speiseAnzeige, this.transform.parent.transform.parent.transform);
 
-        showSpeise.GetComponent<ShowSpeiseControll>().ShowSpeiseVonKarte(speisenTable);
+        showSpeise.GetComponent<ShowSpeiseControll>().Speise = speise;
+    }
+
+    public void UpdateShowSpeise()
+    {
+        showSpeise = GameObject.FindGameObjectWithTag("ShowSpeise");
+
+        if (showSpeise != null)
+        {
+            showSpeise.GetComponent<ShowSpeiseControll>().Speise = speise;
+        }
     }
 }

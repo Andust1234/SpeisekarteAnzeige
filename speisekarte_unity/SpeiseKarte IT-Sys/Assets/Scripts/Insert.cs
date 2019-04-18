@@ -9,7 +9,7 @@ public class Insert : MonoBehaviour
     private MySqlConnection conn;
     private long lastInsertedId;
 
-    public void InsertToDatabase(string sqlText)
+    private void Awake()
     {
         if(GetComponent<Connect>() == null)
         {
@@ -21,6 +21,10 @@ public class Insert : MonoBehaviour
         }
 
         conn = connect.GetConnection();
+    }
+
+    public void InsertToDatabase(string sqlText)
+    {
         conn.Open();
 
         if (conn != null)
@@ -37,8 +41,6 @@ public class Insert : MonoBehaviour
             {
                 Debug.Log("MySQL Error: " + ex.ToString());
             }
-
-            //Debug.Log("SQL Text ausgeführt.");
         }
         else
         {
@@ -46,6 +48,12 @@ public class Insert : MonoBehaviour
         }
 
         conn.Close();
+    }
+
+    public void InsertSpeiseInDatabase(Speise speise)
+    {
+        string sqlText = "INSERT INTO speisekarte(titel, preis, beschreibung, speiseart_id, bildrawdata, bildheight, bildwidth)" +
+            " VALUES(@titel, @preis, @beschreibung, @speiseart_id, @bildrawdata, @bildheight, @bildwidth)";//Hier muss ich weiter machen.
     }
 
     public long GetLastInsertedId()

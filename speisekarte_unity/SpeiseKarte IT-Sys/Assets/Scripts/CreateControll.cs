@@ -3,30 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
+using UnityEngine.Networking;
 using System.IO;
+
 
 public class CreateControll : MonoBehaviour
 {
-    public Text titel;
-    public Text beschreibung;
-    public Text preis;
-    public Dropdown speisenart;
+    public InputField titel;
+    public InputField beschreibung;
+    public InputField preis;
+    public Dropdown dropdown;
 
-    public GameObject showImage;
-    public Text showTitel;
-    public Text showBeschreibung;
-    public Text showPreis;
+    public SpeiseControll vorschauSpeise;
 
-    private byte[] imageData = null;
+    private SpeiseArt[] speiseArten;
+    public SpeiseArt[] SpeiseArten
+    {
+        set
+        {
+            speiseArten = value;
+
+            SetupDropDown();
+        }
+    }
+
+    private Speise speise;
+    public Speise Speise
+    {
+        set
+        {
+            speise = value;
+
+            SetupForm();
+        }
+    }
+
     private Texture2D txt;
-    private Sprite sprite;
     private Insert insert;
     private InsertBild insertBild;
 
     [DllImport("user32.dll")]
     private static extern void OpenFileDialog();
 
-    public void BildVorschau()
+    public void UploadImage()
     {
         System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
 
@@ -34,44 +53,74 @@ public class CreateControll : MonoBehaviour
 
         ofd.ShowDialog();
 
-        imageData = File.ReadAllBytes(ofd.FileName);
-
-        txt = new Texture2D(2, 2);
-
-        txt.LoadImage(imageData);
-
-        sprite = Sprite.Create(txt, new Rect(0, 0, txt.width, txt.height), new Vector2(0.5f, 0.5f), 1f);
-
-        showImage.GetComponent<Image>().sprite = sprite;
-
-        VorschaubildSeitenverhältnis();
+        StartCoroutine(LoadImage(ofd.FileName));
     }
 
-    private void VorschaubildSeitenverhältnis()
+    private IEnumerator LoadImage(string str)
     {
-        float width = showImage.GetComponent<RectTransform>().sizeDelta.x;
-        float height = showImage.GetComponent<RectTransform>().sizeDelta.y;
-        float einsEntspricht = 0;
-
-        if (txt.width > txt.height)
+        using ( UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(str))
         {
-            einsEntspricht = (float)width / txt.width;
-            height = txt.height * einsEntspricht;
+            yield return uwr.SendWebRequest();
+
+            if(uwr.isNetworkError || uwr.isHttpError)
+            {
+                Debug.Log(uwr.error);
+            }
+            else
+            {
+                txt = new Texture2D(2, 2, TextureFormat.RGB24, false);
+
+                txt = DownloadHandlerTexture.GetContent(uwr);
+
+                BildRawData brd = new BildRawData();
+
+                brd.BildHight = txt.height;
+                brd.BildWidth = txt.width;
+                brd.BildRaw = txt.GetRawTextureData();
+
+                speise.Bild = brd;
+
+                UpdateInput();
+            }
         }
-        else if (txt.height > txt.width)
+    }
+
+    private void SetupDropDown()
+    {
+        List<string> dropdownOptions = new List<string>();
+
+        foreach(SpeiseArt art in speiseArten)
         {
-            einsEntspricht = (float)height / txt.height;
-            width = txt.width * einsEntspricht;
+            dropdownOptions.Add(art.SpeisenArt);
         }
 
-        showImage.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+        dropdown.ClearOptions();
+
+        dropdown.AddOptions(dropdownOptions);
+    }
+
+    private void SetupForm()
+    {
+        titel.text = speise.Titel;
+        beschreibung.text = speise.Beschreibung;
+        preis.text = speise.Preis.ToString();
+        dropdown.value = speise.SpeisenArt_ID + 1;
     }
 
     public void UpdateInput()
     {
-        //showTitel.text = titel.text;
-        //showBeschreibung.text = beschreibung.text;
-        //showPreis.text = preis.text;
+        StartCoroutine(UpdateInputCoro());
+    }
+
+    private IEnumerator UpdateInputCoro()
+    {
+        yield return null;
+
+        speise.Titel = titel.text;
+        speise.Beschreibung = beschreibung.text;
+        speise.Preis = preis.text;
+
+        vorschauSpeise.GetComponent<SpeiseControll>().Speise = speise;
     }
 
     public void Save()
@@ -79,13 +128,15 @@ public class CreateControll : MonoBehaviour
         insert = this.gameObject.AddComponent<Insert>();
         insertBild = this.gameObject.AddComponent<InsertBild>();
 
-        string sqlText = "INSERT INTO speisekarte(titel, preis, beschreibung) " +
-            "VALUES('" + titel.text + "', '" + preis.text + "', '" + beschreibung.text + "')";
+        //string sqlText = "INSERT INTO speisekarte(titel, preis, beschreibung, speiseart_id) " +
+        //    "VALUES('" + speise.Titel + "', '" + speise.Preis + "', '" + speise.Beschreibung + "', '" + speise.SpeisenArt_ID + "')";
 
-        insert.InsertToDatabase(sqlText);
+        //insert.InsertToDatabase(sqlText);
 
-        string sqlTextBild = "UPDATE speisekarte SET bild = @img WHERE id = " + insert.GetLastInsertedId();
+        //string sqlTextBild = "UPDATE speisekarte SET bild = @img WHERE id = " + insert.GetLastInsertedId();
 
-        insertBild.InsertBildInDatenbank(sqlTextBild, imageData);
+        //insertBild.InsertBildInDatenbank(sqlTextBild, speise.Bild.BildRaw);
+
+        insert.InsertSpeiseInDatabase(speise);
     }
 }

@@ -6,14 +6,14 @@ using UnityEditor;
 
 public class TestInsertBild : MonoBehaviour
 {
-    private InsertBild inserBild;
+    //private InsertBild inserBild;
 
     public Texture2D img;
     public string sqlText;
 
     private void Start()
     {
-        inserBild = this.gameObject.AddComponent<InsertBild>();
+        //inserBild = this.gameObject.AddComponent<InsertBild>();
         //inserBild.InsertBildInDatenbank(sqlText, img);
     }
 
