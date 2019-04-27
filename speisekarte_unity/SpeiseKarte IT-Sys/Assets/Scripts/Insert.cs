@@ -7,7 +7,7 @@ public class Insert : MonoBehaviour
 {
     private Connect connect;
     private MySqlConnection conn;
-    private long lastInsertedId;
+    private MySqlCommand cmd;
 
     private void Awake()
     {
@@ -21,43 +21,48 @@ public class Insert : MonoBehaviour
         }
 
         conn = connect.GetConnection();
-    }
 
-    public void InsertToDatabase(string sqlText)
-    {
-        conn.Open();
-
-        if (conn != null)
-        {
-            MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = sqlText;
-
-            try
-            {
-                cmd.ExecuteNonQuery();
-                lastInsertedId = cmd.LastInsertedId;
-            }
-            catch (System.Exception ex)
-            {
-                Debug.Log("MySQL Error: " + ex.ToString());
-            }
-        }
-        else
-        {
-            Debug.Log("Keine Connection!");
-        }
-
-        conn.Close();
+        cmd = conn.CreateCommand();
     }
 
     public void InsertSpeiseInDatabase(Speise speise)
     {
-        string sqlText = "INSERT INTO speisekarte(titel, preis, beschreibung, speiseart_id, bildrawdata, bildheight, bildwidth)" +
-            " VALUES(@titel, @preis, @beschreibung, @speiseart_id, @bildrawdata, @bildheight, @bildwidth)";//Hier muss ich weiter machen.
-    }
+        string sqlText = "INSERT INTO speisekarte(titel, preis, beschreibung, speisenart_id, bildrawdata, bildheight, bildwidth)" +
+            " VALUES(@titel, @preis, @beschreibung, @speisenart_id, @bildrawdata, @bildheight, @bildwidth)";
 
-    public long GetLastInsertedId()
-    {
-        return lastInsertedId;
+        conn.Open();
+
+        cmd.CommandText = "SET GLOBAL max_allowed_packet=1024*1024*1024;";
+        cmd.ExecuteNonQuery();
+
+        cmd.CommandText = sqlText;
+
+        MySqlParameter paramTitel = new MySqlParameter("@titel", MySqlDbType.Text);
+        MySqlParameter paramPreis = new MySqlParameter("@preis", MySqlDbType.Text);
+        MySqlParameter paramBeschreibung = new MySqlParameter("@beschreibung", MySqlDbType.Text);
+        MySqlParameter paramSpeisenart_id = new MySqlParameter("@speisenart_id", MySqlDbType.Int16);
+        MySqlParameter paramBildRawData = new MySqlParameter("@bildrawdata", MySqlDbType.Blob);
+        MySqlParameter paramBildHeight = new MySqlParameter("@bildheight", MySqlDbType.Int16);
+        MySqlParameter paramBildWidth = new MySqlParameter("@bildwidth", MySqlDbType.Int16);
+
+        paramTitel.Value = speise.Titel;
+        paramPreis.Value = speise.Preis;
+        paramBeschreibung.Value = speise.Beschreibung;
+        paramSpeisenart_id.Value = speise.SpeisenArt_ID;
+        paramBildRawData.Value = speise.Bild.BildRaw;
+        paramBildHeight.Value = speise.Bild.BildHight;
+        paramBildWidth.Value = speise.Bild.BildWidth;
+
+        cmd.Parameters.Add(paramTitel);
+        cmd.Parameters.Add(paramPreis);
+        cmd.Parameters.Add(paramBeschreibung);
+        cmd.Parameters.Add(paramSpeisenart_id);
+        cmd.Parameters.Add(paramBildRawData);
+        cmd.Parameters.Add(paramBildHeight);
+        cmd.Parameters.Add(paramBildWidth);
+
+        cmd.ExecuteNonQuery();
+
+        conn.Close();
     }
 }

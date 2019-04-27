@@ -64,8 +64,17 @@ public class Read : MonoBehaviour
         return table;
     }
 
-    public Speise[] ReadSpeiseTable(string sqlText)
+    public Speise[] ReadSpeisen(int id)
     {
+        //D:\xampp\mysql\bin\my.ini
+        //innodb_buffer_pool_size = 512M
+        //innodb_additional_mem_pool_size = 2M
+        //## Set .._log_file_size to 25 % of buffer pool size
+        //innodb_log_file_size = 128M
+        //innodb_log_buffer_size = 128M
+
+        string sqlText = "SELECT speisekarte.ID, speisekarte.Titel, speisekarte.Preis, speisekarte.Beschreibung, speisekarte.SpeisenArt_ID, speisenart.SpeisenArtName, speisekarte.BildRawData, speisekarte.BildHeight, speisekarte.BildWidth FROM speisekarte INNER JOIN speisenart ON " + id + " = speisenart.ID WHERE speisekarte.SpeisenArt_ID =" + id;
+
         conn.Open();
 
         MySqlCommand cmd = conn.CreateCommand();
@@ -84,23 +93,29 @@ public class Read : MonoBehaviour
         cmd.CommandText = sqlText;
         reader = cmd.ExecuteReader();
 
-        Speise[] table = new Speise[k];
+        Speise[] speisen = new Speise[k];
 
         int i = 0;
 
         while (reader.Read())
         {
-            Speise speisenTable = new Speise();
+            Speise speise = new Speise();
+            BildRawData bild = new BildRawData();
 
-            speisenTable.ID = (int)reader[0];
-            speisenTable.Titel = (string)reader[1];
-            //speisenTable.Bild = (byte[])reader[2];
-            speisenTable.Preis = (string)reader[3];
-            speisenTable.Beschreibung = (string)reader[4];
-            speisenTable.SpeisenArt = (string)reader[5];
-            speisenTable.SpeisenArt_ID = (int)reader[6];
+            speise.ID = (int)reader[0];
+            speise.Titel = (string)reader[1];
+            speise.Preis = (string)reader[2];
+            speise.Beschreibung = (string)reader[3];
+            speise.SpeisenArt_ID = (int)reader[4];
+            speise.SpeisenArt = (string)reader[5];
 
-            table[i] = speisenTable;
+            bild.BildRaw = (byte[])reader[6];
+            bild.BildHight = (int)reader[7];
+            bild.BildWidth = (int)reader[8];
+
+            speise.Bild = bild;
+
+            speisen[i] = speise;
 
             i++;
         }
@@ -108,6 +123,6 @@ public class Read : MonoBehaviour
         reader.Close();
         conn.Close();
 
-        return table;
+        return speisen;
     }
 }

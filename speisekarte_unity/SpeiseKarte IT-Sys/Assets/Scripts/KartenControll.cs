@@ -8,7 +8,18 @@ public class KartenControll : MonoBehaviour
     public GameObject speisePrefab;
     public int platzZwischenSpeisen = 20;
 
-    private Speise[] speisenTable;
+    private Speise[] speisen;
+    public Speise[] Speisen
+    {
+        set
+        {
+            speisen = value;
+
+            SetGröße();
+
+            StartCoroutine(SetSpeisen());
+        }
+    }
     private float breite;
     private float höhe;
     private int speisenNebeneinander;
@@ -20,15 +31,6 @@ public class KartenControll : MonoBehaviour
         this.gameObject.GetComponent<ScrollRect>().viewport = this.gameObject.transform.parent.GetComponent<RectTransform>();
     }
 
-    public void SetSpeisenTable(Speise[] table)
-    {
-        speisenTable = table;
-
-        SetGröße();
-
-        StartCoroutine(SetSpeisen());
-    }
-
     private void SetGröße()
     {
         speiseBreite = speisePrefab.GetComponent<RectTransform>().sizeDelta.x;
@@ -38,15 +40,12 @@ public class KartenControll : MonoBehaviour
 
         speisenNebeneinander = (int)(breite / speiseBreite);
 
-        höhe = platzZwischenSpeisen + ((speiseHöhe + platzZwischenSpeisen) * (speisenTable.Length / speisenNebeneinander));
+        höhe = platzZwischenSpeisen + ((speiseHöhe + platzZwischenSpeisen) * (speisen.Length / speisenNebeneinander));
 
-        if (speisenTable.Length % speisenNebeneinander != 0)
+        if (speisen.Length % speisenNebeneinander != 0)
             höhe += speiseHöhe + platzZwischenSpeisen;
         
         this.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0.5f, höhe);
-
-        //if (höhe < Screen.height)
-        //    this.gameObject.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
     }
 
     private IEnumerator SetSpeisen()
@@ -54,11 +53,11 @@ public class KartenControll : MonoBehaviour
         float x = 0;
         float y = 0;
 
-        for(int i = 0; i < speisenTable.Length; i++)
+        for(int i = 0; i < speisen.Length; i++)
         {
             GameObject speise = Instantiate(speisePrefab, this.transform) as GameObject;
 
-            speise.GetComponent<SpeiseControll>().Speise = speisenTable[i];
+            speise.GetComponent<SpeiseControll>().Speise = speisen[i];
 
             x = platzZwischenSpeisen + ((i % speisenNebeneinander) * (speiseBreite + (platzZwischenSpeisen)));
 

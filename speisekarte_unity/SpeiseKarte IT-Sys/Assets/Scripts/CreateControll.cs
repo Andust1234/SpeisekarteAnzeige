@@ -72,6 +72,10 @@ public class CreateControll : MonoBehaviour
 
                 txt = DownloadHandlerTexture.GetContent(uwr);
 
+                ResizeImage rimage = this.gameObject.AddComponent<ResizeImage>();
+
+                txt = rimage.ScaleTexture(txt);
+
                 BildRawData brd = new BildRawData();
 
                 brd.BildHight = txt.height;
@@ -119,6 +123,7 @@ public class CreateControll : MonoBehaviour
         speise.Titel = titel.text;
         speise.Beschreibung = beschreibung.text;
         speise.Preis = preis.text;
+        speise.SpeisenArt_ID = dropdown.value + 1;
 
         vorschauSpeise.GetComponent<SpeiseControll>().Speise = speise;
     }
@@ -126,16 +131,6 @@ public class CreateControll : MonoBehaviour
     public void Save()
     {
         insert = this.gameObject.AddComponent<Insert>();
-        insertBild = this.gameObject.AddComponent<InsertBild>();
-
-        //string sqlText = "INSERT INTO speisekarte(titel, preis, beschreibung, speiseart_id) " +
-        //    "VALUES('" + speise.Titel + "', '" + speise.Preis + "', '" + speise.Beschreibung + "', '" + speise.SpeisenArt_ID + "')";
-
-        //insert.InsertToDatabase(sqlText);
-
-        //string sqlTextBild = "UPDATE speisekarte SET bild = @img WHERE id = " + insert.GetLastInsertedId();
-
-        //insertBild.InsertBildInDatenbank(sqlTextBild, speise.Bild.BildRaw);
 
         insert.InsertSpeiseInDatabase(speise);
     }

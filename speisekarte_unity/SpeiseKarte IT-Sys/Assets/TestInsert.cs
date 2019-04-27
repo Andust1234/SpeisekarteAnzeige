@@ -10,6 +10,6 @@ public class TestInsert : MonoBehaviour
     private void Start()
     {
         insert = this.gameObject.AddComponent<Insert>();
-        insert.InsertToDatabase(sqlText);
+        //insert.InsertToDatabase(sqlText);
     }
 }

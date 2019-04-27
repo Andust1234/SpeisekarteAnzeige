@@ -5,17 +5,26 @@ using UnityEngine.UI;
 
 public class ButtonScript : MonoBehaviour
 {
-    public int speisenArtID;
-
-    private ControllerScript controllerScript;
-    private Button selfButton;
-
-    private void Start()
+    private SpeiseArt speiseArt;
+    public SpeiseArt SpeiseArt
     {
-        controllerScript = GameObject.Find("Controller").GetComponent<ControllerScript>();
+        set
+        {
+            speiseArt = value;
 
-        selfButton = GetComponent<Button>();
-        selfButton.onClick.AddListener(() => controllerScript.LoadAnzeige(speisenArtID));
+            SetupButton();
+        }
     }
 
+    public ControllerScript controllerScript;
+
+    private Button selfButton;
+
+    private void SetupButton()
+    {
+        transform.GetChild(0).GetComponent<Text>().text = speiseArt.SpeisenArt;
+
+        selfButton = GetComponent<Button>();
+        selfButton.onClick.AddListener(() => controllerScript.LoadAnzeige(speiseArt.ID));
+    }
 }

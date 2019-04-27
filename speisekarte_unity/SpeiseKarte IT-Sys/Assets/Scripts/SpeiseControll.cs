@@ -28,6 +28,8 @@ public class SpeiseControll : MonoBehaviour
 
     private GameObject showSpeise;
 
+    private Delete delete;
+
     private void SetupSpeise()
     {
         if(speise.Bild.BildRaw != null)
@@ -93,5 +95,12 @@ public class SpeiseControll : MonoBehaviour
         {
             showSpeise.GetComponent<ShowSpeiseControll>().Speise = speise;
         }
+    }
+
+    public void DeleteSpeise()
+    {
+        delete = new Delete();
+
+        delete.DeleteSpeise(speise);
     }
 }

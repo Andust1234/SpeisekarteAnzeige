@@ -34,8 +34,6 @@ public class ControllerScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F12))
         {
-            Debug.Log("F12 down");
-
             ControllerScript.SetAdminMode(!ControllerScript.GetAdminMode());
         }
 
@@ -51,13 +49,11 @@ public class ControllerScript : MonoBehaviour
         for (int i = 0; i < speiseArten.Length; i++)
         {
             GameObject button;
-            SpeiseArt speisenArt = new SpeiseArt();
 
             button = Instantiate(buttonPrefab, buttons.transform);
-            speisenArt = speiseArten[i];
 
-            button.transform.GetChild(0).GetComponent<Text>().text = speisenArt.SpeisenArt;
-            button.GetComponent<ButtonScript>().speisenArtID = speisenArt.ID;
+            button.GetComponent<ButtonScript>().controllerScript = this;
+            button.GetComponent<ButtonScript>().SpeiseArt = speiseArten[i];
 
             RectTransform buttonRect = button.GetComponent<RectTransform>();
             buttonRect.anchoredPosition = new Vector2(buttonRect.anchoredPosition.x, -12.5f + (-42.5f * i));
@@ -75,7 +71,7 @@ public class ControllerScript : MonoBehaviour
 
         karte = Instantiate(showKartePrefab, anzeige.transform);
 
-        karte.GetComponent<KartenControll>().SetSpeisenTable(read.ReadSpeiseTable("SELECT speisekarte.ID, speisekarte.Titel, speisekarte.Bild, speisekarte.Preis, speisekarte.Beschreibung, speisenart.SpeisenArtName, speisekarte.SpeisenArt_ID FROM speisekarte INNER JOIN speisenart ON " + id + " = speisenart.ID WHERE speisekarte.SpeisenArt_ID=" + id));
+        karte.GetComponent<KartenControll>().Speisen = read.ReadSpeisen(id);
     }
 
     public static void SetAdminMode(bool b)
