@@ -54,7 +54,8 @@ public class SpeiseControll : MonoBehaviour
 
     private void Update()
     {
-        editButton.SetActive(ControllerScript.GetAdminMode());
+        if (this.gameObject.transform.parent.name.Equals("ShowKarte(Clone)"))
+            editButton.SetActive(ControllerScript.GetAdminMode());
     }
 
     private void VorschaubildSeitenverhältnis()
@@ -99,8 +100,10 @@ public class SpeiseControll : MonoBehaviour
 
     public void DeleteSpeise()
     {
-        delete = new Delete();
+        delete = gameObject.AddComponent<Delete>();
 
         delete.DeleteSpeise(speise);
+
+        GameObject.Find("Controller").GetComponent<ControllerScript>().LoadAnzeige(speise.SpeisenArt_ID);
     }
 }

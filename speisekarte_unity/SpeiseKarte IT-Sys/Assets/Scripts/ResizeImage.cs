@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ResizeImage : MonoBehaviour
 {
-    private int maxSize = 1000;
+    private int maxSize = 500;
 
     public Texture2D ScaleTexture(Texture2D source)
     {

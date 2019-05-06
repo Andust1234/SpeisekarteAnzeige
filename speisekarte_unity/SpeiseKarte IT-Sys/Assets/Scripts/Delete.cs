@@ -9,7 +9,7 @@ public class Delete : MonoBehaviour
     private MySqlConnection conn;
     private MySqlCommand cmd;
 
-    private void Awake()
+    public void DeleteSpeise(Speise speise)
     {
         if (GetComponent<Connect>() == null)
         {
@@ -24,16 +24,6 @@ public class Delete : MonoBehaviour
 
         cmd = conn.CreateCommand();
 
-        conn.Open();
-
-        cmd.CommandText = "SET GLOBAL max_allowed_packet=1024*1024*1024;";
-        cmd.ExecuteNonQuery();
-
-        conn.Close();
-    }
-
-    public void DeleteSpeise(Speise speise)
-    {
         string sqlText = "DELETE from speisekarte where id=" + speise.ID;
 
         conn.Open();

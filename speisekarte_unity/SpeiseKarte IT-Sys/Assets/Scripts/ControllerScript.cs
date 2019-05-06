@@ -37,6 +37,11 @@ public class ControllerScript : MonoBehaviour
             ControllerScript.SetAdminMode(!ControllerScript.GetAdminMode());
         }
 
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+
         creatSpeise.SetActive(adminMode);
     }
 

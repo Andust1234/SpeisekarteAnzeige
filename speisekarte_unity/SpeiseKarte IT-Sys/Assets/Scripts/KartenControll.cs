@@ -65,7 +65,8 @@ public class KartenControll : MonoBehaviour
 
             speise.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, y);
 
-            yield return null;
+            if(i>15)//Lässt die ersten Speisen sofort erscheinen und lässt die die man nicht sieht nacheinander erscheinen.
+                yield return null;
         }
     }
 }
