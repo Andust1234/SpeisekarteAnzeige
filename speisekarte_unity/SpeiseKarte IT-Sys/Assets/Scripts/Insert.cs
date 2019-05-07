@@ -30,7 +30,7 @@ public class Insert : MonoBehaviour
         string sqlText = "INSERT INTO speisekarte(titel, preis, beschreibung, speisenart_id, bildrawdata, bildheight, bildwidth)" +
             " VALUES(@titel, @preis, @beschreibung, @speisenart_id, @bildrawdata, @bildheight, @bildwidth)";
 
-        ExecuteSqlText(sqlText, speise);
+        ExecuteSpeiseSqlText(sqlText, speise);
     }
 
     public void UpdateSpeiseInDatabaseWhereID(Speise speise)
@@ -38,10 +38,10 @@ public class Insert : MonoBehaviour
         string sqlText = "UPDATE speisekarte SET titel=@titel, preis=@preis, beschreibung=@beschreibung, speisenart_id=@speisenart_id," +
             " bildrawdata=@bildrawdata, bildheight=@bildheight, bildwidth=@bildwidth WHERE ID=" + speise.ID;
 
-        ExecuteSqlText(sqlText, speise);
+        ExecuteSpeiseSqlText(sqlText, speise);
     }
 
-    private void ExecuteSqlText(string sqlText, Speise speise)
+    private void ExecuteSpeiseSqlText(string sqlText, Speise speise)
     {
         conn.Open();
 
@@ -73,6 +73,37 @@ public class Insert : MonoBehaviour
         cmd.Parameters.Add(paramBildRawData);
         cmd.Parameters.Add(paramBildHeight);
         cmd.Parameters.Add(paramBildWidth);
+
+        cmd.ExecuteNonQuery();
+
+        conn.Close();
+    }
+
+    public void InsertSpeiseArtInDataBase(SpeiseArt speiseArt)
+    {
+        string sqlText = "INSERT INTO speisenart(speisenartname) VALUES(@speisenartname)";
+
+        ExecuteSpeisenArtSqlText(sqlText, speiseArt);
+    }
+
+    public void UpdateSpeiseArtInDatebase(SpeiseArt speiseArt)
+    {
+        string sqlText = "UPDATE speisenart SET speisenartname=@speisenartname WHERE id=" + speiseArt.ID;
+
+        ExecuteSpeisenArtSqlText(sqlText, speiseArt);
+    }
+
+    private void ExecuteSpeisenArtSqlText(string sqlText, SpeiseArt speiseArt)
+    {
+        conn.Open();
+
+        cmd.CommandText = sqlText;
+
+        MySqlParameter paramSpeisenArtName = new MySqlParameter("@speisenartname", MySqlDbType.Text);
+
+        paramSpeisenArtName.Value = speiseArt.SpeisenArt;
+
+        cmd.Parameters.Add(paramSpeisenArtName);
 
         cmd.ExecuteNonQuery();
 

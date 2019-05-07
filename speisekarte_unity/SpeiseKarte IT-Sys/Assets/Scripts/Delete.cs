@@ -9,7 +9,7 @@ public class Delete : MonoBehaviour
     private MySqlConnection conn;
     private MySqlCommand cmd;
 
-    public void DeleteSpeise(Speise speise)
+    private void Awake()
     {
         if (GetComponent<Connect>() == null)
         {
@@ -23,8 +23,24 @@ public class Delete : MonoBehaviour
         conn = connect.GetConnection();
 
         cmd = conn.CreateCommand();
+    }
 
+    public void DeleteSpeise(Speise speise)
+    {
         string sqlText = "DELETE from speisekarte where id=" + speise.ID;
+
+        conn.Open();
+
+        cmd.CommandText = sqlText;
+
+        cmd.ExecuteNonQuery();
+
+        conn.Close();
+    }
+
+    public void DeleteSpeiseArt(SpeiseArt speiseArt)
+    {
+        string sqlText = "DELETE from speisenart where id=" + speiseArt.ID;
 
         conn.Open();
 

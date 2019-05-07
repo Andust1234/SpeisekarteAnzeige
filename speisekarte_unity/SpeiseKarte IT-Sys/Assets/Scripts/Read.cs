@@ -125,4 +125,30 @@ public class Read : MonoBehaviour
 
         return speisen;
     }
+
+    public int CountRowsWhitID(int id)
+    {
+        int i = 0;
+        long k = 0;
+
+        string sqlText = "SELECT COUNT(*) FROM speisekarte WHERE SpeisenArt_ID=" + id;
+
+        conn.Open();
+
+        MySqlCommand cmd = conn.CreateCommand();
+        cmd.CommandText = sqlText;
+        MySqlDataReader reader = cmd.ExecuteReader();
+        
+        while (reader.Read())
+        {
+            k = (long)reader[0];
+        }
+
+        reader.Close();
+        conn.Close();
+
+        i = (int)k;
+
+        return i;
+    }
 }

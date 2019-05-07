@@ -15,6 +15,7 @@ public class ControllerScript : MonoBehaviour
     public GameObject buttons;
     public GameObject anzeige;
 
+    public GameObject editSpeiseArten;
     public GameObject createSpeise;
 
     private static bool adminMode = false;
@@ -47,18 +48,30 @@ public class ControllerScript : MonoBehaviour
 
         if (adminMode)
         {
-            if(!createSpeise.activeSelf)
+            if (!createSpeise.activeSelf)
                 createSpeise.SetActive(true);
+
+            if (!editSpeiseArten.activeSelf)
+                editSpeiseArten.SetActive(true);
         }
         else
         {
             if (createSpeise.activeSelf)
                 createSpeise.SetActive(false);
+
+            if (editSpeiseArten.activeSelf)
+                editSpeiseArten.SetActive(false);
         }
     }
 
     public void LoadButton()
     {
+        foreach (Transform child in buttons.transform)
+        {
+            if(child.CompareTag("SpeiseArt"))
+                GameObject.Destroy(child.gameObject);
+        }
+
         read = this.gameObject.AddComponent<Read>();
 
         speiseArten = read.ReadSpeisenArtTable("SELECT * FROM speisenart");
@@ -79,10 +92,7 @@ public class ControllerScript : MonoBehaviour
 
     public void LoadAnzeige(int id)
     {
-        foreach(Transform child in anzeige.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
+        ClaerAnzeige();
 
         GameObject karte;
 
@@ -91,7 +101,7 @@ public class ControllerScript : MonoBehaviour
         karte.GetComponent<KartenControll>().Speisen = read.ReadSpeisen(id);
     }
 
-    public static void SetAdminMode(bool b)
+    private static void SetAdminMode(bool b)
     {
         adminMode = b;
     }
@@ -103,10 +113,7 @@ public class ControllerScript : MonoBehaviour
 
     public void LoadCreatSpeise()
     {
-        foreach (Transform child in anzeige.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
+        ClaerAnzeige();
 
         GameObject createSpeise;
 
@@ -117,10 +124,7 @@ public class ControllerScript : MonoBehaviour
 
     public void LoadEditSpeise(Speise speise)
     {
-        foreach (Transform child in anzeige.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
+        ClaerAnzeige();
 
         GameObject createSpeise;
 
@@ -131,5 +135,20 @@ public class ControllerScript : MonoBehaviour
         createSpeise.GetComponent<CreateControll>().Speise = speise;
 
         createSpeise.GetComponent<CreateControll>().editMode = true;
+    }
+
+    public void LoadEditSpeiseArt()
+    {
+        ClaerAnzeige();
+
+        Instantiate(createSpeisenArtPrefab, anzeige.transform);
+    }
+
+    private void ClaerAnzeige()
+    {
+        foreach (Transform child in anzeige.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
     }
 }
