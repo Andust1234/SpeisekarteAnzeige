@@ -27,6 +27,13 @@ public class ShowSpeiseControll : MonoBehaviour
     private Texture2D txt;
     private Sprite sprite;
 
+    private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     private void VorschaubildSeitenverhältnis()
     {
         float width = image.GetComponent<RectTransform>().sizeDelta.x;
@@ -73,6 +80,15 @@ public class ShowSpeiseControll : MonoBehaviour
 
     public void Close()
     {
+        StartCoroutine(CloseCoro());
+    }
+
+    private IEnumerator CloseCoro()
+    {
+        animator.SetTrigger("Close");
+
+        yield return new WaitForSeconds(1);
+
         GameObject.Destroy(this.gameObject);
     }
 }

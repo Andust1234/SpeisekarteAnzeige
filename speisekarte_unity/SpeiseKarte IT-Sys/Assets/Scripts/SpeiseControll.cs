@@ -5,12 +5,16 @@ using UnityEngine.UI;
 
 public class SpeiseControll : MonoBehaviour
 {
+    public int id;
+
     private Speise speise;
     public Speise Speise
     {
         set
         {
             speise = value;
+
+            id = speise.ID;
 
             SetupSpeise();
             UpdateShowSpeise();
@@ -21,6 +25,7 @@ public class SpeiseControll : MonoBehaviour
     public Text titel;
     public Text preis;
 
+    public GameObject deleteButton;
     public GameObject editButton;
 
     private Texture2D txt;
@@ -54,8 +59,31 @@ public class SpeiseControll : MonoBehaviour
 
     private void Update()
     {
+        ShowButton();
+    }
+
+    private void ShowButton()
+    {
         if (this.gameObject.transform.parent.name.Equals("ShowKarte(Clone)"))
-            editButton.SetActive(ControllerScript.GetAdminMode());
+        {
+            if (ControllerScript.GetAdminMode())
+            {
+                if(!editButton.activeSelf)
+                    editButton.SetActive(true);
+
+                if(!deleteButton.activeSelf)
+                    deleteButton.SetActive(true);
+            }
+            else
+            {
+                if (editButton.activeSelf)
+                    editButton.SetActive(false);
+
+                if (deleteButton.activeSelf)
+                    deleteButton.SetActive(false);
+            }
+
+        }
     }
 
     private void VorschaubildSeitenverhältnis()
@@ -78,9 +106,21 @@ public class SpeiseControll : MonoBehaviour
         image.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
     }
 
-    public void ShowSpeise()
+    public GameObject ShowSpeiseSchoner()
     {
         if(this.gameObject.transform.parent.name.Equals("Vorschau"))
+            showSpeise = Instantiate(speiseAnzeige, this.transform.parent.transform);
+        else
+            showSpeise = Instantiate(speiseAnzeige, this.transform.parent.transform.parent.transform);
+
+        showSpeise.GetComponent<ShowSpeiseControll>().Speise = speise;
+
+        return showSpeise;
+    }
+
+    public void ShowSpeise()
+    {
+        if (this.gameObject.transform.parent.name.Equals("Vorschau"))
             showSpeise = Instantiate(speiseAnzeige, this.transform.parent.transform);
         else
             showSpeise = Instantiate(speiseAnzeige, this.transform.parent.transform.parent.transform);
@@ -105,5 +145,10 @@ public class SpeiseControll : MonoBehaviour
         delete.DeleteSpeise(speise);
 
         GameObject.Find("Controller").GetComponent<ControllerScript>().LoadAnzeige(speise.SpeisenArt_ID);
+    }
+
+    public void EditSpeise()
+    {
+        GameObject.Find("Controller").GetComponent<ControllerScript>().LoadEditSpeise(speise);
     }
 }

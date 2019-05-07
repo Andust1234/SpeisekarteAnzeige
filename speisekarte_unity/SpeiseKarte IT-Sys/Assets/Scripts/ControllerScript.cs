@@ -15,17 +15,20 @@ public class ControllerScript : MonoBehaviour
     public GameObject buttons;
     public GameObject anzeige;
 
-    public GameObject creatSpeise;
+    public GameObject createSpeise;
 
     private static bool adminMode = false;
 
     private Read read;
+    private RandomControll randomControll;
 
     private SpeiseArt[] speiseArten;
 
     private void Awake()
     {
         LoadButton();
+
+        randomControll = gameObject.AddComponent<RandomControll>();
 
         Instantiate(showStartPrefab, anzeige.transform);
     }
@@ -42,7 +45,16 @@ public class ControllerScript : MonoBehaviour
             Application.Quit();
         }
 
-        creatSpeise.SetActive(adminMode);
+        if (adminMode)
+        {
+            if(!createSpeise.activeSelf)
+                createSpeise.SetActive(true);
+        }
+        else
+        {
+            if (createSpeise.activeSelf)
+                createSpeise.SetActive(false);
+        }
     }
 
     public void LoadButton()
@@ -101,5 +113,23 @@ public class ControllerScript : MonoBehaviour
         createSpeise =  Instantiate(createSpeisePrefab, anzeige.transform);
 
         createSpeise.GetComponent<CreateControll>().SpeiseArten = speiseArten;
+    }
+
+    public void LoadEditSpeise(Speise speise)
+    {
+        foreach (Transform child in anzeige.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        GameObject createSpeise;
+
+        createSpeise = Instantiate(createSpeisePrefab, anzeige.transform);
+
+        createSpeise.GetComponent<CreateControll>().SpeiseArten = speiseArten;
+
+        createSpeise.GetComponent<CreateControll>().Speise = speise;
+
+        createSpeise.GetComponent<CreateControll>().editMode = true;
     }
 }

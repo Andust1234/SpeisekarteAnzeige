@@ -683,7 +683,7 @@ MonoBehaviour:
     type: 3}
   buttons: {fileID: 346749684}
   anzeige: {fileID: 354375197}
-  creatSpeise: {fileID: 46947843}
+  createSpeise: {fileID: 46947843}
 --- !u!1 &1123299258
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,6 +20,11 @@ public class ButtonScript : MonoBehaviour
 
     private Button selfButton;
 
+    public int GetSpeiseArtID()
+    {
+        return speiseArt.ID;
+    }
+
     private void SetupButton()
     {
         transform.GetChild(0).GetComponent<Text>().text = speiseArt.SpeisenArt;

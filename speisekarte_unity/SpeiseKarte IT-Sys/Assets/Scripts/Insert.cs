@@ -30,6 +30,19 @@ public class Insert : MonoBehaviour
         string sqlText = "INSERT INTO speisekarte(titel, preis, beschreibung, speisenart_id, bildrawdata, bildheight, bildwidth)" +
             " VALUES(@titel, @preis, @beschreibung, @speisenart_id, @bildrawdata, @bildheight, @bildwidth)";
 
+        ExecuteSqlText(sqlText, speise);
+    }
+
+    public void UpdateSpeiseInDatabaseWhereID(Speise speise)
+    {
+        string sqlText = "UPDATE speisekarte SET titel=@titel, preis=@preis, beschreibung=@beschreibung, speisenart_id=@speisenart_id," +
+            " bildrawdata=@bildrawdata, bildheight=@bildheight, bildwidth=@bildwidth WHERE ID=" + speise.ID;
+
+        ExecuteSqlText(sqlText, speise);
+    }
+
+    private void ExecuteSqlText(string sqlText, Speise speise)
+    {
         conn.Open();
 
         cmd.CommandText = "SET GLOBAL max_allowed_packet=1024*1024*1024;";

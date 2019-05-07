@@ -6,12 +6,19 @@ using System.IO;
 
 public class Connect : MonoBehaviour
 {
-    private readonly MySqlConnection conn;
+    private MySqlConnection conn;
     private MySQLConfig config;
 
-    public Connect()
+    public void Awake()
     {
-        config = MySQLConfig.CreateFromJSON();
+        string jsonTextFile = Resources.Load<TextAsset>("MySQL").text;
+
+        ConnectDB(jsonTextFile);
+    }
+
+    private void ConnectDB(string jsonTextFile)
+    {
+        config = MySQLConfig.CreateFromJSON(jsonTextFile);
 
         if (conn == null)
         {

@@ -11,15 +11,15 @@ public class MySQLConfig
     public string user;
     public string password;
 
-    public static MySQLConfig CreateFromJSON()
+    public static MySQLConfig CreateFromJSON(string jsonTextFile)
     {
-        return JsonUtility.FromJson<MySQLConfig>(File.ReadAllText("Assets/Config/MySQL.json"));
+        return JsonUtility.FromJson<MySQLConfig>(jsonTextFile);
     }
 
-    public void WriteToJSON()
-    {
-        string configToJson = JsonUtility.ToJson(this);
+    //public void WriteToJSON()
+    //{
+    //    string configToJson = JsonUtility.ToJson(this);
 
-        File.WriteAllText("Assets/Config/MySQL.json", configToJson);
-    }
+    //    File.WriteAllText("Assets/Config/MySQL.json", configToJson);
+    //}
 }

@@ -16,6 +16,8 @@ public class CreateControll : MonoBehaviour
 
     public SpeiseControll vorschauSpeise;
 
+    public bool editMode = false;
+
     private SpeiseArt[] speiseArten;
     public SpeiseArt[] SpeiseArten
     {
@@ -40,7 +42,6 @@ public class CreateControll : MonoBehaviour
 
     private Texture2D txt;
     private Insert insert;
-    private InsertBild insertBild;
 
     [DllImport("user32.dll")]
     private static extern void OpenFileDialog();
@@ -108,7 +109,9 @@ public class CreateControll : MonoBehaviour
         titel.text = speise.Titel;
         beschreibung.text = speise.Beschreibung;
         preis.text = speise.Preis.ToString();
-        dropdown.value = speise.SpeisenArt_ID + 1;
+        dropdown.value = speise.SpeisenArt_ID - 1;
+
+        vorschauSpeise.GetComponent<SpeiseControll>().Speise = speise;
     }
 
     public void UpdateInput()
@@ -132,6 +135,9 @@ public class CreateControll : MonoBehaviour
     {
         insert = this.gameObject.AddComponent<Insert>();
 
-        insert.InsertSpeiseInDatabase(speise);
+        if (editMode)
+            insert.UpdateSpeiseInDatabaseWhereID(speise);
+        else
+            insert.InsertSpeiseInDatabase(speise);
     }
 }

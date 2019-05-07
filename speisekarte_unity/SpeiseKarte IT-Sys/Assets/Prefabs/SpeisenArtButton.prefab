@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1316923319205307616}
   m_Layer: 5
   m_Name: SpeisenArtButton
-  m_TagString: Untagged
+  m_TagString: SpeiseArt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b18a98ba4db1ce499fd5ade0ab21c59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speisenArtID: 0
   controllerScript: {fileID: 0}
 --- !u!1 &5622360655903285226
 GameObject:
