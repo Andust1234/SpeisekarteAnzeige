@@ -71,22 +71,17 @@
     <Compile Include="Assets\Scripts\EditSpeiseArt.cs" />
     <Compile Include="Assets\Scripts\EditSpeiseArtControll.cs" />
     <Compile Include="Assets\Scripts\Insert.cs" />
-    <Compile Include="Assets\Scripts\InsertBild.cs" />
     <Compile Include="Assets\Scripts\KartenControll.cs" />
+    <Compile Include="Assets\Scripts\LogInDB.cs" />
     <Compile Include="Assets\Scripts\MySQLConfig.cs" />
     <Compile Include="Assets\Scripts\RandomControll.cs" />
     <Compile Include="Assets\Scripts\Read.cs" />
-    <Compile Include="Assets\Scripts\ReadBild.cs" />
     <Compile Include="Assets\Scripts\ResizeImage.cs" />
     <Compile Include="Assets\Scripts\ShowSpeiseControll.cs" />
     <Compile Include="Assets\Scripts\Speise.cs" />
     <Compile Include="Assets\Scripts\SpeiseArt.cs" />
     <Compile Include="Assets\Scripts\SpeiseControll.cs" />
-    <Compile Include="Assets\TestFilePanel.cs" />
-    <Compile Include="Assets\TestInsert.cs" />
-    <Compile Include="Assets\TestInsertBild.cs" />
-    <Compile Include="Assets\TestRead.cs" />
-    <Compile Include="Assets\TestReadBild.cs" />
+    <None Include="Assets\Shader\Blur.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/VTTI/Documents/GitHub/SpeisekarteAnzeige/speisekarte_unity/SpeiseKarte IT-Sys/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>

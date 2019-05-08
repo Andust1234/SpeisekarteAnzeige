@@ -34,22 +34,21 @@ public class ResizeImage : MonoBehaviour
 
     private Vector2 ScaleSize(int txtWidth, int txtHeight)
     {
-        Vector2 result;
         float einsEntspricht = 0;
 
         if(txtWidth > txtHeight)
         {
             einsEntspricht = (float)maxSize / txtWidth;
-            return result = new Vector2(maxSize, txtHeight * einsEntspricht);
+            return new Vector2(maxSize, txtHeight * einsEntspricht);
         }
         else if(txtWidth > txtHeight)
         {
             einsEntspricht = (float)maxSize / txtHeight;
-            return result = new Vector2(txtWidth * einsEntspricht, maxSize);
+            return new Vector2(txtWidth * einsEntspricht, maxSize);
         }
         else
         {
-            return result = new Vector2(maxSize, maxSize);
+            return new Vector2(maxSize, maxSize);
         }
     }
 }

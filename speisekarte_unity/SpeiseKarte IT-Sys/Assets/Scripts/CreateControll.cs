@@ -13,6 +13,7 @@ public class CreateControll : MonoBehaviour
     public InputField beschreibung;
     public InputField preis;
     public Dropdown dropdown;
+    public Button save;
 
     public SpeiseControll vorschauSpeise;
 
@@ -104,6 +105,17 @@ public class CreateControll : MonoBehaviour
         dropdown.AddOptions(dropdownOptions);
     }
 
+    private int GetSpeisenArtIdWithDropDown(int value)
+    {
+        foreach(SpeiseArt art in speiseArten)
+        {
+            if (art.SpeisenArt.Equals(dropdown.options[value].text))
+                return art.ID;
+        } 
+
+        return 0;
+    }
+
     private void SetupForm()
     {
         titel.text = speise.Titel;
@@ -126,9 +138,27 @@ public class CreateControll : MonoBehaviour
         speise.Titel = titel.text;
         speise.Beschreibung = beschreibung.text;
         speise.Preis = preis.text;
-        speise.SpeisenArt_ID = dropdown.value + 1;
+        speise.SpeisenArt_ID = GetSpeisenArtIdWithDropDown(dropdown.value);
 
         vorschauSpeise.GetComponent<SpeiseControll>().Speise = speise;
+
+        ActivateSave();
+    }
+
+    private void ActivateSave()
+    {
+        if(!speise.Titel.Equals("")
+            && !speise.Beschreibung.Equals("")
+            && !speise.Preis.Equals("")
+            && speise.SpeisenArt_ID != 0
+            && speise.Bild.BildRaw != null)
+        {
+            save.interactable = true;
+        }
+        else
+        {
+            save.interactable = false;
+        }
     }
 
     public void Save()

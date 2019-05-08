@@ -8,6 +8,7 @@ public class RandomControll : MonoBehaviour
     public int zeitBisSchoner = 10;
     public int zeitBisShowSpeise = 1;
     public int zeitShowSpeise = 5;
+    public bool random;
 
     private List<GameObject> speisearten;
     private List<GameObject> speisen;
@@ -30,7 +31,7 @@ public class RandomControll : MonoBehaviour
 
     private void StartStopwatch()
     {
-        if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0 || ControllerScript.GetAdminMode())
+        if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0 || ControllerScript.GetAdminMode() || !ControllerScript.schoner )
         {
             if (stopwatch.IsRunning)
             {
@@ -101,9 +102,22 @@ public class RandomControll : MonoBehaviour
     {
         if (speisearten.Count > 0)
         {
-            GameObject gameObj = speisearten[0];
+            GameObject gameObj;
 
-            speisearten.RemoveAt(0);
+            if (random)
+            {
+                int i = GetZufallsZahl(speisearten.Count);
+
+                gameObj = speisearten[i];
+
+                speisearten.RemoveAt(i);
+            }
+            else
+            {
+                gameObj = speisearten[0];
+
+                speisearten.RemoveAt(0);
+            }
 
             int gameObjInt = gameObj.GetComponent<ButtonScript>().GetSpeiseArtID();
 
@@ -118,9 +132,22 @@ public class RandomControll : MonoBehaviour
 
     private void SpeisenDurchblättern()
     {
-        GameObject gameObj = speisen[0];
+        GameObject gameObj;
 
-        speisen.RemoveAt(0);
+        if (random)
+        {
+            int i = GetZufallsZahl(speisen.Count);
+
+            gameObj = speisen[i];
+
+            speisen.RemoveAt(i);
+        }
+        else
+        {
+            gameObj = speisen[0];
+
+            speisen.RemoveAt(0);
+        }
 
         showSpeise = gameObj.GetComponent<SpeiseControll>().ShowSpeiseSchoner();
     }
@@ -144,5 +171,10 @@ public class RandomControll : MonoBehaviour
             if(gameObj != null)
                 speisen.Add(gameObj);
         }
+    }
+
+    private int GetZufallsZahl(int anzahl)
+    {
+        return (int)Random.Range(0f, (float)anzahl);
     }
 }

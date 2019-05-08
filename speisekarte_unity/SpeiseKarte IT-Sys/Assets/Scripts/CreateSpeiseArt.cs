@@ -14,6 +14,8 @@ public class CreateSpeiseArt : MonoBehaviour
     private void Awake()
     {
         speiseArt = new SpeiseArt();
+
+        create.interactable = false;
     }
 
     public void SetUp(EditSpeiseArtControll eSC)
@@ -26,5 +28,10 @@ public class CreateSpeiseArt : MonoBehaviour
     public void ChangeText()
     {
         speiseArt.SpeisenArt = speiseArtName.text;
+
+        if (!speiseArtName.text.Equals(""))
+            create.interactable = true;
+        else
+            create.interactable = false;
     }
 }

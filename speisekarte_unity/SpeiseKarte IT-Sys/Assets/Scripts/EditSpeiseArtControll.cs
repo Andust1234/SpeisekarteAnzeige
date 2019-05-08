@@ -58,8 +58,6 @@ public class EditSpeiseArtControll : MonoBehaviour
 
     public void Rename(SpeiseArt sA)
     {
-        Debug.Log(sA.ID + " " + sA.SpeisenArt);
-
         insert = gameObject.AddComponent<Insert>();
 
         insert.UpdateSpeiseArtInDatebase(sA);
@@ -70,8 +68,6 @@ public class EditSpeiseArtControll : MonoBehaviour
 
     public void Delete(SpeiseArt sA)
     {
-        Debug.Log(sA.ID);
-
         delete = gameObject.AddComponent<Delete>();
 
         delete.DeleteSpeiseArt(sA);
@@ -82,8 +78,6 @@ public class EditSpeiseArtControll : MonoBehaviour
 
     public void Create(SpeiseArt sA)
     {
-        Debug.Log(sA.SpeisenArt);
-
         insert = gameObject.AddComponent<Insert>();
 
         insert.InsertSpeiseArtInDataBase(sA);

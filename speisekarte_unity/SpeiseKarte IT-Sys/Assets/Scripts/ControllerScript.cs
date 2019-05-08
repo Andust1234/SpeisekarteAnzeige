@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ControllerScript : MonoBehaviour
 {
+    public GameObject loginPrefab;
     public GameObject buttonPrefab;
     public GameObject createSpeisePrefab;
     public GameObject createSpeisenArtPrefab;
@@ -19,24 +20,32 @@ public class ControllerScript : MonoBehaviour
     public GameObject createSpeise;
 
     private static bool adminMode = false;
+    public static bool schoner = false;
+    public bool logedIn = false;
 
     private Read read;
-    private RandomControll randomControll;
 
     private SpeiseArt[] speiseArten;
 
     private void Awake()
     {
-        LoadButton();
+        GameObject logIn = Instantiate(loginPrefab, anzeige.transform);
 
-        randomControll = gameObject.AddComponent<RandomControll>();
+        logIn.GetComponent<LogInDB>().ControllerScript = this;
+    }
+
+    public void StartSpeisekarte()
+    {
+        ClearAnzeige();
+
+        LoadButton();
 
         Instantiate(showStartPrefab, anzeige.transform);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F12))
+        if (Input.GetKeyDown(KeyCode.F12) && logedIn)
         {
             ControllerScript.SetAdminMode(!ControllerScript.GetAdminMode());
         }
@@ -62,6 +71,9 @@ public class ControllerScript : MonoBehaviour
             if (editSpeiseArten.activeSelf)
                 editSpeiseArten.SetActive(false);
         }
+
+        if (speiseArten.Length != 0)
+            schoner = true;
     }
 
     public void LoadButton()
@@ -86,13 +98,13 @@ public class ControllerScript : MonoBehaviour
             button.GetComponent<ButtonScript>().SpeiseArt = speiseArten[i];
 
             RectTransform buttonRect = button.GetComponent<RectTransform>();
-            buttonRect.anchoredPosition = new Vector2(buttonRect.anchoredPosition.x, -12.5f + (-42.5f * i));
+            buttonRect.anchoredPosition = new Vector2(0f , 0f -(buttonRect.sizeDelta.y * i));
         }
     }
 
     public void LoadAnzeige(int id)
     {
-        ClaerAnzeige();
+        ClearAnzeige();
 
         GameObject karte;
 
@@ -113,7 +125,7 @@ public class ControllerScript : MonoBehaviour
 
     public void LoadCreatSpeise()
     {
-        ClaerAnzeige();
+        ClearAnzeige();
 
         GameObject createSpeise;
 
@@ -124,7 +136,7 @@ public class ControllerScript : MonoBehaviour
 
     public void LoadEditSpeise(Speise speise)
     {
-        ClaerAnzeige();
+        ClearAnzeige();
 
         GameObject createSpeise;
 
@@ -139,12 +151,12 @@ public class ControllerScript : MonoBehaviour
 
     public void LoadEditSpeiseArt()
     {
-        ClaerAnzeige();
+        ClearAnzeige();
 
         Instantiate(createSpeisenArtPrefab, anzeige.transform);
     }
 
-    private void ClaerAnzeige()
+    private void ClearAnzeige()
     {
         foreach (Transform child in anzeige.transform)
         {

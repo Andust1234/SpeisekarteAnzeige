@@ -327,22 +327,24 @@
     <Compile Include="Assets\Scripts\Connect.cs" />
     <Compile Include="Assets\Scripts\ControllerScript.cs" />
     <Compile Include="Assets\Scripts\CreateControll.cs" />
+    <Compile Include="Assets\Scripts\CreateSpeiseArt.cs" />
+    <Compile Include="Assets\Scripts\Delete.cs" />
     <Compile Include="Assets\Scripts\DontDestroyOnLoad.cs" />
+    <Compile Include="Assets\Scripts\EditSpeiseArt.cs" />
+    <Compile Include="Assets\Scripts\EditSpeiseArtControll.cs" />
     <Compile Include="Assets\Scripts\Insert.cs" />
-    <Compile Include="Assets\Scripts\InsertBild.cs" />
     <Compile Include="Assets\Scripts\KartenControll.cs" />
     <Compile Include="Assets\Scripts\MySQLConfig.cs" />
+    <Compile Include="Assets\Scripts\RandomControll.cs" />
     <Compile Include="Assets\Scripts\Read.cs" />
-    <Compile Include="Assets\Scripts\ReadBild.cs" />
+    <Compile Include="Assets\Scripts\ResizeImage.cs" />
     <Compile Include="Assets\Scripts\ShowSpeiseControll.cs" />
+    <Compile Include="Assets\Scripts\Speise.cs" />
+    <Compile Include="Assets\Scripts\SpeiseArt.cs" />
     <Compile Include="Assets\Scripts\SpeiseControll.cs" />
-    <Compile Include="Assets\TestFilePanel.cs" />
-    <Compile Include="Assets\TestInsert.cs" />
-    <Compile Include="Assets\TestInsertBild.cs" />
-    <Compile Include="Assets\TestRead.cs" />
-    <Compile Include="Assets\TestReadBild.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Shader\Blur.shader" />
     <None Include="Packages\com.unity.analytics\DataPrivacy\Unity.Analytics.DataPrivacy.asmdef" />
     <None Include="Packages\com.unity.analytics\Tests\Editor\Unity.Analytics.StandardEvents\Unity.Analytics.StandardEvents.EditorTests.asmdef" />
     <None Include="Packages\com.unity.analytics\Tests\Runtime\DataPrivacy\Unity.Analytics.DataPrivacy.Tests.asmdef" />

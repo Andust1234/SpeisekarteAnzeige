@@ -15,11 +15,4 @@ public class MySQLConfig
     {
         return JsonUtility.FromJson<MySQLConfig>(jsonTextFile);
     }
-
-    //public void WriteToJSON()
-    //{
-    //    string configToJson = JsonUtility.ToJson(this);
-
-    //    File.WriteAllText("Assets/Config/MySQL.json", configToJson);
-    //}
 }
