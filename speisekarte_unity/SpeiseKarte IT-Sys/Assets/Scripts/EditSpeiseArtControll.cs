@@ -40,7 +40,7 @@ public class EditSpeiseArtControll : MonoBehaviour
         {
             gameObj = Instantiate(editSpeiseArtPrefab, this.transform);
 
-            gameObj.GetComponent<EditSpeiseArt>().SetUp(sA[i], read.CountRowsWhitID(i), this);
+            gameObj.GetComponent<EditSpeiseArt>().SetUp(sA[i], read.CountRowsWhitID(sA[i].ID), this);
 
             rect = gameObj.GetComponent<RectTransform>();
 

@@ -116,12 +116,29 @@ public class CreateControll : MonoBehaviour
         return 0;
     }
 
+    private int GetDropdownIdWithName(string value)
+    {
+        int i = 0;
+
+        foreach(Dropdown.OptionData opt in dropdown.options)
+        {
+            if (opt.text.Equals(value))
+                return i;
+
+            i++;
+        }
+
+        return 0;
+    }
+
     private void SetupForm()
     {
+        Debug.Log("Setup: " + speise.SpeisenArt_ID);
+
+        dropdown.value = GetDropdownIdWithName(speise.SpeisenArt);
         titel.text = speise.Titel;
         beschreibung.text = speise.Beschreibung;
         preis.text = speise.Preis.ToString();
-        dropdown.value = speise.SpeisenArt_ID - 1;
 
         vorschauSpeise.GetComponent<SpeiseControll>().Speise = speise;
     }
@@ -141,6 +158,8 @@ public class CreateControll : MonoBehaviour
         speise.SpeisenArt_ID = GetSpeisenArtIdWithDropDown(dropdown.value);
 
         vorschauSpeise.GetComponent<SpeiseControll>().Speise = speise;
+
+        Debug.Log("Update: " + speise.SpeisenArt_ID);
 
         ActivateSave();
     }
@@ -164,6 +183,8 @@ public class CreateControll : MonoBehaviour
     public void Save()
     {
         insert = this.gameObject.AddComponent<Insert>();
+
+        Debug.Log("Save: " + speise.SpeisenArt_ID);
 
         if (editMode)
             insert.UpdateSpeiseInDatabaseWhereID(speise);
